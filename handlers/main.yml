@@ -4,5 +4,6 @@
   become: true
   systemd:
     daemon_reload: true
+    enabled: true
     name: node_exporter
     state: restarted
