@@ -6,7 +6,7 @@ After=network.target
 User=root
 Group=root
 Type=simple
-ExecStart=/usr/local/bin/node_exporter
+ExecStart=/usr/local/bin/node_exporter {{ service_parameters }}
 
 [Install]
 WantedBy=multi-user.target
