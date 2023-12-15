@@ -1,24 +1,9 @@
 ---
 
-- name: Unarchive Node exporter
-  ansible.builtin.unarchive:
-    src: https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-    dest: /tmp
-    remote_src: yes
+- name: Install on Debian or RedHat OS families
+  include_tasks: Debian-RedHat.yml
+  when: ansible_os_family == 'Debian' or ansible_os_family == 'RedHat'
 
-- name: Copy Node exporter to /usr/local/bin
-  copy:
-    remote_src: yes
-    src: /tmp/node_exporter-1.3.1.linux-amd64/node_exporter
-    dest: /usr/local/bin/node_exporter
-    mode: 0755
-  notify: restart node_exporter
-
-- name: Copy the node_exporter systemd service file
-  template:
-    src: node_exporter.service.j2
-    dest: /etc/systemd/system/node_exporter.service
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart node_exporter
+- name: Install on FreeBSD
+  include_tasks: FreeBSD.yml
+  when: ansible_os_family == "FreeBSD"
